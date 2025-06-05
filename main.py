@@ -10,11 +10,13 @@ screen.tracer(0)
 screen.bgcolor("#0E86CC")
 screen.title("Turtle Crossing")
 
-player = Player()
+player_1 = Player(player_number="1")
+player_2 = Player(player_number="2")
 car_manager = CarManager()
 scoreboard = Scoreboard()
 
-screen.onkeypress(player.move_forward, "w")
+screen.onkeypress(player_1.move_forward, "w")
+screen.onkeypress(player_2.move_forward, "Up")
 screen.listen()
 
 game_is_on = True
@@ -27,14 +29,14 @@ while game_is_on:
 
     # Detect player collision with car and reset
     for car in car_manager.active_cars:
-        if -20 < (car.xcor() - player.xcor()) < 20 and -20 < (car.ycor() - player.ycor()) < 22:
-            player.reset()
+        if -20 < (car.xcor() - player_1.xcor()) < 20 and -20 < (car.ycor() - player_1.ycor()) < 22:
+            player_1.reset()
             scoreboard.end_game()
             game_is_on = False
 
     # Detect level advancement
-    if player.ycor() > 300:
-        player.reset()
+    if player_1.ycor() > 300:
+        player_1.reset()
         scoreboard.next_level()
         car_manager.increase_difficulty()
 
