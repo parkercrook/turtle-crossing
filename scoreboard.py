@@ -19,25 +19,35 @@ class Scoreboard(Turtle):
         self.next_level()
 
     def update_score(self):
+        self.clear()
+        self.write_level()
         self.goto(P1_POINTS_POS)
         self.write(arg=f"Player {self.players[1].id} points: {self.players[1].points}", align="center", font=SCORE_FONT)
         self.goto(P2_POINTS_POS)
         self.write(arg=f"Player {self.players[2].id} points: {self.players[2].points}", align="center", font=SCORE_FONT)
 
-    def add_point(self, player_id):
-        self.players[player_id].points += 1
+    def add_points(self, player_id):
+        self.players[player_id].points += 2
+        self.update_score()
+
+    def subtract_point(self, player_id):
+        self.players[player_id].points -= 1
+        self.update_score()
+
+    def write_level(self):
+        self.goto(SCOREBOARD_POS)
+        self.write(f"Level: {self.level}", align="center", font=LEVEL_FONT)
 
     def next_level(self):
         self.level += 1
         self.clear()
-        self.goto(SCOREBOARD_POS)
-        self.write(f"Level: {self.level}", align="center", font=LEVEL_FONT)
+        self.write_level()
         self.update_score()
 
 
     def check_winner(self):
         for player in self.players.values():
-            if player.points == 5:
+            if player.points >= 10:
                 self.clear()
                 self.goto(0, 0)
                 self.write(f"PLAYER {player.id} WINS", align="center", font=LEVEL_FONT)
